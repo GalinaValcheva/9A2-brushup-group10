@@ -15,7 +15,8 @@ The workflow follows the project rubric so that we have fixed official train/val
 ## 1. install packages
 """
 
-!pip install -q medmnist torch torchvision scikit-learn pandas numpy matplotlib tqdm pyyaml joblib
+# Install dependencies with:
+# pip install -r requirements.txt
 
 """## 2. imports and setup
 
@@ -95,9 +96,9 @@ train_dataset = DataClass(split="train", transform=transform, download=True)
 val_dataset = DataClass(split="val", transform=transform, download=True)
 test_dataset = DataClass(split="test", transform=transform, download=True)
 
-train_loader = DataLoader(train_dataset, batch_size=BATCH_SIZE, shuffle=True, num_workers=2)
-val_loader = DataLoader(val_dataset, batch_size=BATCH_SIZE, shuffle=False, num_workers=2)
-test_loader = DataLoader(test_dataset, batch_size=BATCH_SIZE, shuffle=False, num_workers=2)
+train_loader = DataLoader(train_dataset, batch_size=BATCH_SIZE, shuffle=True, num_workers=0)
+val_loader = DataLoader(val_dataset, batch_size=BATCH_SIZE, shuffle=False, num_workers=0)
+test_loader = DataLoader(test_dataset, batch_size=BATCH_SIZE, shuffle=False, num_workers=0)
 
 print("train size:", len(train_dataset))
 print("validation size:", len(val_dataset))
