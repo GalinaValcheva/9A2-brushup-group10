@@ -141,13 +141,13 @@ def main():
                 "batch_size": BATCH_SIZE,
                 "learning_rate": LEARNING_RATE,
                 "epochs": EPOCHS,
-                "model": "SmallCNN",
+                "model": "SmallCNNWeightedLoss",
             }, checkpoint_path)
 
             print("Saved new best checkpoint")
 
     history_df = pd.DataFrame(history)
-    history_df.to_csv(OUTPUT_DIR / "cnn_training_log.csv", index=False)
+    history_df.to_csv(OUTPUT_DIR / "cnn_weighted_training_log.csv", index=False)
 
     checkpoint = torch.load(checkpoint_path, map_location=device)
 
@@ -164,7 +164,7 @@ def main():
     )
 
     save_json({
-        "model": "small_cnn",
+        "model": "small_cnn_class_weighted",
         "checkpoint": str(checkpoint_path),
         "best_validation_auc": checkpoint["best_val_auc"],
         "test_metrics": test_metrics,

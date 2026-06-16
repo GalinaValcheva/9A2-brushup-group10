@@ -12,24 +12,34 @@ def load_json(path):
         return json.load(f)
 
 
+def add_result_row(rows, result):
+    metrics = result["test_metrics"]
+
+    rows.append({
+        "model": result["model"],
+        "accuracy": metrics["accuracy"],
+        "f1": metrics["f1"],
+        "auc": metrics["auc"],
+        "sensitivity": metrics["sensitivity"],
+        "specificity": metrics["specificity"],
+    })
+
+
 def main():
-    baseline = load_json(OUTPUT_DIR / "baseline_metrics.json")
-    cnn = load_json(OUTPUT_DIR / "cnn_test_metrics.json")
-    cnn_weighted = load_json(OUTPUT_DIR / "ccn_weighted_test_metrics.json")
+    result_files = [
+        OUTPUT_DIR / "baseline_metrics.json",
+        OUTPUT_DIR / "cnn_test_metrics.json",
+    ]
+
+    weighted_path = OUTPUT_DIR / "cnn_weighted_test_metrics.json"
+    if weighted_path.exists():
+        result_files.append(weighted_path)
 
     rows = []
 
-    for result in [baseline, cnn, cnn_weighted]:
-        metrics = result["test_metrics"]
-
-        rows.append({
-            "model": result["model"],
-            "accuracy": metrics["accuracy"],
-            "f1": metrics["f1"],
-            "auc": metrics["auc"],
-            "sensitivity": metrics["sensitivity"],
-            "specificity": metrics["specificity"],
-        })
+    for result_file in result_files:
+        result = load_json(result_file)
+        add_result_row(rows, result)
 
     comparison = pd.DataFrame(rows)
     comparison.to_csv(OUTPUT_DIR / "final_model_comparison.csv", index=False)
