@@ -1,0 +1,10 @@
+seed: 123
+data_flag: pneumoniamnist
+model: logistic_regression
+c_values:
+  - 0.01
+  - 0.1
+  - 1.0
+  - 10.0
+class_weight: balanced
+metric_for_selection: auc
