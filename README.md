@@ -6,7 +6,7 @@ src/          model training, evaluation, and utilities
 
 notebooks/    exploratory development notebooks
 
-experiments/  experiment summaries and comparison tables
+experiments/  experiment summary and comparison table
 
 outputs/      generated checkpoints, logs, and metrics
 
@@ -46,7 +46,7 @@ logistic_regression,     0.8733974358974359,0.9056152927120669,0.929772079772079
 small_cnn,               0.8717948717948718,0.9061032863849765,0.9336675432829279,0.9897435897435898,0.6752136752136753
 small_cnn_class_weighted,0.8814102564102564,0.9121140142517815,0.9359248301555994,0.9846153846153847,0.7094017094017094
 
-NB: Raw metrics are stored in outputs/*.json. A summary comparison is provided in experiments/results.csv.
+NB: Raw metrics are stored in outputs/*.json. A summary comparison is provided in experiments/final_model_comparsion.csv.
 
 
 ## interpretation
