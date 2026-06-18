@@ -35,7 +35,7 @@ Baseline: logistic regression using scikit-learn.
 Deep learning model: small convolutional neural network using PyTorch.
 
 ## training and validation
-The CNN is trained with CrossEntropyLoss and Adam. Validation performance is checked after each epoch. The best checkpoint is saved based on validation performance.
+The CNN is trained with CrossEntropyLoss and Adam. Validation performance is checked after each epoch. The model is evaluated on it, and the checkpoint with the highest validation AUC is saved as best_model.pt and used for final test evaluation.
 
 ## evaluation
 Both models are evaluated using the same test split and reported with accuracy, F1-score, AUC, and confusion matrix.
@@ -48,7 +48,7 @@ small_cnn_class_weighted,0.8814102564102564,0.9121140142517815,0.935924830155599
 
 
 ## interpretation
-Briefly explain whether the CNN improved over the baseline, what errors remain, and why performance may be limited by the 28x28 image resolution.
+The weighted CNN achieved the highest AUC (0.936) and accuracy (0.881). The standard CNN slightly improved AUC over logistic regression but not accuracy. The results suggest that class weighting helps the CNN focus on minority-class examples. Performance is likely limited by the small 28x28 image resolution and the relatively simple architecture.
 
 ## reproducibility
 
@@ -70,3 +70,7 @@ python src/evaluate.py --checkpoint outputs/cnn_run/best_model.pt --split test
 
 run on snellius:
 sbatch slurm/train_cnn.slurm
+
+## hardware and execution
+
+The code automatically uses a GPU when one is available. Training can be executed locally, in Google Colab, or on Snellius. Example SLURM job scripts for Snellius are provided in the `slurm/` directory.
