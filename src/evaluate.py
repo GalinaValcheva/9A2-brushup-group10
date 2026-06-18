@@ -42,9 +42,7 @@ def main():
         add_result_row(rows, result)
 
     comparison = pd.DataFrame(rows)
-    Path("experiments").mkdir(exist_ok=True)
-    comparison.to_csv("experiments/final_model_comparison.csv", index=False)
-    #comparison.to_csv(OUTPUT_DIR / "final_model_comparison.csv", index=False)
+    comparison.to_csv(OUTPUT_DIR / "final_model_comparison.csv", index=False)
 
     print(comparison)
 
