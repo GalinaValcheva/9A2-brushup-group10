@@ -77,9 +77,52 @@ def plot_confusion_matrices_from_metrics():
     plt.savefig(OUTPUT_DIR / "confusion_matrices.png", dpi=150)
     plt.close()
 
+def plot_baseline_validation_curves():
+    baseline_path = OUTPUT_DIR / "baseline_metrics.json"
+
+    if not baseline_path.exists():
+        print(f"Skipping {baseline_path}; file does not exist.")
+        return
+
+    baseline = load_json(baseline_path)
+    validation_results = baseline["validation_results"]
+
+    c_values = [row["C"] for row in validation_results]
+    auc_values = [row["auc"] for row in validation_results]
+
+    plt.figure(figsize=(8, 5))
+    plt.plot(c_values, auc_values, marker="o")
+    plt.xscale("log")
+    plt.xlabel("Regularization parameter C")
+    plt.ylabel("Validation AUC")
+    plt.title("Baseline validation AUC by C")
+    plt.grid(True)
+    plt.tight_layout()
+    plt.savefig(OUTPUT_DIR / "baseline_auc_by_c.png", dpi=150)
+    plt.close()
+
+    if "log_loss" not in validation_results[0]:
+        print("Skipping baseline log loss plot; rerun train_baseline.py first.")
+        return
+
+    log_loss_values = [row["log_loss"] for row in validation_results]
+
+    plt.figure(figsize=(8, 5))
+    plt.plot(c_values, log_loss_values, marker="o")
+    plt.xscale("log")
+    plt.xlabel("Regularization parameter C")
+    plt.ylabel("Validation log loss")
+    plt.title("Baseline validation log loss by C")
+    plt.grid(True)
+    plt.tight_layout()
+    plt.savefig(OUTPUT_DIR / "baseline_log_loss_by_c.png", dpi=150)
+    plt.close()
+
 
 def main():
     OUTPUT_DIR.mkdir(exist_ok=True)
+
+    plot_baseline_validation_curves()
 
     plot_training_curve(
         OUTPUT_DIR / "cnn_training_log.csv",

@@ -2,12 +2,14 @@ from pathlib import Path
 
 import joblib
 from sklearn.linear_model import LogisticRegression
+from sklearn.metrics import log_loss
 from sklearn.pipeline import Pipeline
 from sklearn.preprocessing import StandardScaler
 
 from data import get_flattened_data
 from metrics import compute_binary_metrics
 from utils import save_json, set_seed
+
 
 
 SEED = 123
@@ -42,6 +44,7 @@ def main():
         val_prob = model.predict_proba(x_val)[:, 1]
         val_pred = model.predict(x_val)
         val_metrics = compute_binary_metrics(y_val, val_pred, val_prob)
+        val_metrics["log_loss"] = float(log_loss(y_val, val_prob))
 
         validation_results.append({"C": c, **val_metrics})
 
@@ -55,6 +58,8 @@ def main():
     test_prob = best_model.predict_proba(x_test)[:, 1]
     test_pred = best_model.predict(x_test)
     test_metrics = compute_binary_metrics(y_test, test_pred, test_prob)
+    test_metrics["log_loss"] = float(log_loss(y_test, test_prob))
+    
 
     joblib.dump(best_model, OUTPUT_DIR / "baseline_logistic_regression.joblib")
 
