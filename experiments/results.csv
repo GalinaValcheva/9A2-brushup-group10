@@ -1,0 +1,4 @@
+model,accuracy,f1,auc,sensitivity,specificity
+logistic_regression,0.8734,0.9056,0.9298,0.9718,0.7094
+small_cnn,0.8718,0.9061,0.9337,0.9897,0.6752
+small_cnn_class_weighted,0.8814,0.9121,0.9359,0.9846,0.7094
